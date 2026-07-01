@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
         button.textContent = 'Thanks for clicking!';
 
         // Reset button text after 2 seconds
-        setTimeout(funtion() {
+        setTimeout(function() {
             button.textContent = 'Click Me!';
         }, 2000);
     });
