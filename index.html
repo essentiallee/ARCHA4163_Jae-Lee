@@ -2,31 +2,177 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> Module 1</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galbijjim Recipe Archive</title>
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <header>
-        <div class="left"> Columbia GSAPP</div>
-        <div class="center">
-            Computational Design Practices<br> 
-            <span>Project Archive</span>
-        </div>
-        <div class="right"><a href='#'>About</a></div>
+    <header class="site-header">
+        <a class="brand" href="#top">Columbia GSAPP</a>
+        <nav class="nav-links" aria-label="Recipe sections">
+            <a href="#ingredients">Ingredients</a>
+            <a href="#method">Method</a>
+            <a href="#notes">Notes</a>
+        </nav>
     </header>
-    <script src="javascript/script.js"></script>
 
-    <main>
-        <div class="project-meta">2026</div>
-        <div class="project-title">Module 1</div>
-        <div class="project-subtitle">Jae Hyun Lee</div>
+    <main id="top">
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="kicker">Recipe Archive 2026</p>
+                <h1>Galbijjim: Korean Braised Beef Short Ribs</h1>
+                <p class="intro">
+                    A tender stovetop braise built around meaty short ribs, soy sauce, Asian pear,
+                    garlic, ginger, radish, carrots, and shiitake mushrooms. This page adapts the
+                    structure and cooking logic of Hyosun's Korean Bapsang galbijjim recipe.
+                </p>
+                <a class="source-link" href="https://www.koreanbapsang.com/galbijjim-korean-braised-beef-short/" target="_blank" rel="noreferrer">
+                    View original recipe
+                </a>
+            </div>
+            <figure class="hero-art">
+                <img src="assets/images/galbijjim-pixel.png" alt="Pixel art bowl of Korean braised beef short ribs with vegetables">
+                <figcaption>Pixel-game interpretation of galbijjim for this archive page.</figcaption>
+            </figure>
+        </section>
 
-        <div class="section-title">Interactive Demo</div>
-        <p>Click the button below to see the demo in action!</p>
-        <button id="demoButton">Click Me</button>
-        <div id="messageDisplay"></div>
+        <section class="quick-stats" aria-label="Recipe overview">
+            <article>
+                <span>Prep</span>
+                <strong>30 min</strong>
+            </article>
+            <article>
+                <span>Cook</span>
+                <strong>1 hr 20 min</strong>
+            </article>
+            <article>
+                <span>Serves</span>
+                <strong>4</strong>
+            </article>
+            <article>
+                <span>Texture goal</span>
+                <strong>Tender, glossy</strong>
+            </article>
+        </section>
+
+        <section class="content-grid" id="ingredients">
+            <div class="section-label">
+                <p>01</p>
+                <h2>Build the Party</h2>
+            </div>
+            <div class="panel ingredient-panel">
+                <h3>Short ribs and stock</h3>
+                <ul>
+                    <li>3 pounds meaty beef short ribs</li>
+                    <li>1/2 onion</li>
+                    <li>3 to 4 thin ginger slices</li>
+                    <li>5 garlic cloves</li>
+                    <li>2 scallion whites</li>
+                </ul>
+            </div>
+            <div class="panel ingredient-panel">
+                <h3>Braising liquid</h3>
+                <ul>
+                    <li>1/2 cup soy sauce</li>
+                    <li>2 tablespoons sugar</li>
+                    <li>2 tablespoons honey</li>
+                    <li>1/4 cup rice wine, matsul, or mirin</li>
+                    <li>1/2 cup grated Asian pear</li>
+                    <li>1/2 small grated onion</li>
+                    <li>1 tablespoon minced garlic</li>
+                    <li>1 teaspoon grated ginger</li>
+                    <li>1/2 teaspoon black pepper</li>
+                    <li>2 tablespoons sesame oil, saved for the end</li>
+                </ul>
+            </div>
+            <div class="panel ingredient-panel">
+                <h3>Vegetables and garnish</h3>
+                <ul>
+                    <li>10 ounces Korean radish, cut in large chunks</li>
+                    <li>3 to 4 dried shiitake mushrooms, soaked and quartered</li>
+                    <li>1 large carrot, cut in large chunks</li>
+                    <li>2 scallion greens</li>
+                    <li>Optional: chestnuts, jujubes, gingko nuts, or pine nuts</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="method" id="method">
+            <div class="section-label">
+                <p>02</p>
+                <h2>Cook the Quest</h2>
+            </div>
+            <ol class="steps">
+                <li>
+                    <button class="step-toggle" type="button" aria-pressed="false">Done</button>
+                    <div>
+                        <h3>Clean the ribs</h3>
+                        <p>Trim extra fat, rinse the ribs, and soak them in cold water for about 30 minutes to draw out excess blood. Drain well.</p>
+                    </div>
+                </li>
+                <li>
+                    <button class="step-toggle" type="button" aria-pressed="false">Done</button>
+                    <div>
+                        <h3>Parboil with aromatics</h3>
+                        <p>Boil 5 cups of water with onion, ginger, garlic, and scallion whites. Add the ribs, skim foam, then cook for about 10 minutes.</p>
+                    </div>
+                </li>
+                <li>
+                    <button class="step-toggle" type="button" aria-pressed="false">Done</button>
+                    <div>
+                        <h3>Save the stock</h3>
+                        <p>Remove the ribs, strain the stock, and skim off the fat. This stock becomes the base of the braising liquid.</p>
+                    </div>
+                </li>
+                <li>
+                    <button class="step-toggle" type="button" aria-pressed="false">Done</button>
+                    <div>
+                        <h3>Mix the sauce</h3>
+                        <p>Combine soy sauce, sugar, honey, rice wine, grated pear, grated onion, garlic, ginger, and black pepper. Hold the sesame oil for the finish.</p>
+                    </div>
+                </li>
+                <li>
+                    <button class="step-toggle" type="button" aria-pressed="false">Done</button>
+                    <div>
+                        <h3>Braise in stages</h3>
+                        <p>Return ribs to the pot with sauce and 2 1/2 cups reserved stock. Cover and boil 20 to 30 minutes, then add radish, mushrooms, and carrots for about 20 minutes more.</p>
+                    </div>
+                </li>
+                <li>
+                    <button class="step-toggle" type="button" aria-pressed="false">Done</button>
+                    <div>
+                        <h3>Finish glossy</h3>
+                        <p>Add optional garnishes and cook uncovered for about 10 minutes until the sauce thickens. Stir in scallion greens and sesame oil just before serving.</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section class="notes" id="notes">
+            <div class="section-label">
+                <p>03</p>
+                <h2>Serve and Adjust</h2>
+            </div>
+            <div class="note-board">
+                <article>
+                    <h3>No sear required</h3>
+                    <p>Korean Bapsang notes that traditional galbijjim parboils the ribs rather than browning them first. Searing is optional if you want a deeper roasted flavor.</p>
+                </article>
+                <article>
+                    <h3>Control the sauce</h3>
+                    <p>Use medium-low heat and more time for tender meat with more sauce, or cook uncovered at the end to reduce faster and make the ribs shine.</p>
+                </article>
+                <article>
+                    <h3>Make it a meal</h3>
+                    <p>Serve with steamed rice, kimchi, and crisp vegetable banchan so the sweet-savory braise has something bright beside it.</p>
+                </article>
+            </div>
+        </section>
     </main>
+
+    <footer>
+        <p>Recipe content adapted from Korean Bapsang. Visual system by Jae Hyun Lee.</p>
+    </footer>
 
     <script src="javascript/script.js"></script>
 </body>
