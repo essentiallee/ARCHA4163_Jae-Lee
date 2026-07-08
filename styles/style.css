@@ -19,23 +19,23 @@ main {
 }
 
 .project-meta {
-    font-size: 14px;
-    margin-bottom: 12px;
+    font-size: 11px;
+    margin-bottom: 9px;
 }
 
 .project-title {
-    font-size: 48px;
+    font-size: 11px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 9px;
 }
 
 .project-subtitle {
-    font-size: 20px;
+    font-size: 11px;
     margin-bottom: 60px;
 }
 
 .section-title {
-    font-size: 24px;
+    font-size: 11px;
     font-weight: bold;
     margin-top: 60px;
     margin-bottom: 12px;
