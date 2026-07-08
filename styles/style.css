@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    font-size: 11px;
+    font-size: 13px;
     display: flex;
     justify-content: space-between;
     padding: 24px;
@@ -21,23 +21,23 @@ main {
 }
 
 .project-meta {
-    font-size: 11px;
+    font-size: 13px;
     margin-bottom: 9px;
 }
 
 .project-title {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: bold;
     margin-bottom: 9px;
 }
 
 .project-subtitle {
-    font-size: 11px;
+    font-size: 13px;
     margin-bottom: 60px;
 }
 
 .section-title {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: bold;
     margin-top: 60px;
     margin-bottom: 12px;
