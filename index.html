@@ -3,184 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galbijjim Recipe Archive</title>
+    <title>Spatial Canvases</title>
+
     <link rel="stylesheet" href="styles/style.css">
+
+    <!-- p5.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
+
 <body>
-    <header class="site-header">
-        <a class="brand" href="#top">Columbia GSAPP</a>
-        <nav class="nav-links" aria-label="Recipe sections">
-            <a href="#ingredients">Ingredients</a>
-            <a href="#method">Method</a>
-            <a href="#notes">Notes</a>
-        </nav>
+    
+    <header>
+        <div class="left">Columbia GSAPP</div>
+        <div class="center">
+            Computational Design Workflow<br>
+            <span>Exploration of Digital Objects</span>
+        </div>
     </header>
 
-    <main id="top">
-        <section class="hero">
-            <div class="hero-copy">
-                <p class="kicker">Recipe Archive 2026</p>
-                <h1>Galbijjim: Korean Braised Beef Short Ribs</h1>
-                <p class="intro">
-                    A tender stovetop braise built around meaty short ribs, soy sauce, Asian pear,
-                    garlic, ginger, radish, carrots, and shiitake mushrooms. This page adapts the
-                    structure and cooking logic of Hyosun's Korean Bapsang galbijjim recipe.
-                </p>
-                <a class="source-link" href="https://www.koreanbapsang.com/galbijjim-korean-braised-beef-short/" target="_blank" rel="noreferrer">
-                    View original recipe
-                </a>
-            </div>
-            <figure class="hero-art">
-                <img src="assets/images/galbijjim-pixel.png" alt="Pixel art bowl of Korean braised beef short ribs with vegetables">
-                <figcaption>Pixel-game interpretation of galbijjim for this archive page.</figcaption>
-            </figure>
-        </section>
+    <main>
+        <div class="project-meta">2026</div>
+        <div class="project-title">Spatial Canvases</div>
+        <div class="project-subtitle">Jae Hyun Lee</div>
 
-        <section class="quick-stats" aria-label="Recipe overview">
-            <article>
-                <span>Prep</span>
-                <strong>30 min</strong>
-            </article>
-            <article>
-                <span>Cook</span>
-                <strong>1 hr 20 min</strong>
-            </article>
-            <article>
-                <span>Serves</span>
-                <strong>4</strong>
-            </article>
-            <article>
-                <span>Texture goal</span>
-                <strong>Tender, glossy</strong>
-            </article>
-        </section>
+        <div class="section-title">Digital Object 1: Spatial Canvases</div>
 
-        <section class="content-grid" id="ingredients">
-            <div class="section-label">
-                <p>01</p>
-                <h2>Build the Party</h2>
-            </div>
-            <div class="panel ingredient-panel">
-                <h3>Short ribs and stock</h3>
-                <ul>
-                    <li>3 pounds meaty beef short ribs</li>
-                    <li>1/2 onion</li>
-                    <li>3 to 4 thin ginger slices</li>
-                    <li>5 garlic cloves</li>
-                    <li>2 scallion whites</li>
-                </ul>
-            </div>
-            <div class="panel ingredient-panel">
-                <h3>Braising liquid</h3>
-                <ul>
-                    <li>1/2 cup soy sauce</li>
-                    <li>2 tablespoons sugar</li>
-                    <li>2 tablespoons honey</li>
-                    <li>1/4 cup rice wine, matsul, or mirin</li>
-                    <li>1/2 cup grated Asian pear</li>
-                    <li>1/2 small grated onion</li>
-                    <li>1 tablespoon minced garlic</li>
-                    <li>1 teaspoon grated ginger</li>
-                    <li>1/2 teaspoon black pepper</li>
-                    <li>2 tablespoons sesame oil, saved for the end</li>
-                </ul>
-            </div>
-            <div class="panel ingredient-panel">
-                <h3>Vegetables and garnish</h3>
-                <ul>
-                    <li>10 ounces Korean radish, cut in large chunks</li>
-                    <li>3 to 4 dried shiitake mushrooms, soaked and quartered</li>
-                    <li>1 large carrot, cut in large chunks</li>
-                    <li>2 scallion greens</li>
-                    <li>Optional: chestnuts, jujubes, gingko nuts, or pine nuts</li>
-                </ul>
-            </div>
-        </section>
+        <p>
+            This project explores how primitive digital geometry can become spatial composition.
+            The 2D canvases investigate drawing, rhythm, and interaction through p5.js, while the
+            3D canvases translate those logics into volumetric space using Three.js.
+        </p>
 
-        <section class="method" id="method">
-            <div class="section-label">
-                <p>02</p>
-                <h2>Cook the Quest</h2>
-            </div>
-            <ol class="steps">
-                <li>
-                    <img class="step-image" src="assets/images/steps/step-01-clean-ribs.png" alt="Pixel art of beef short ribs being rinsed in water">
-                    <div>
-                        <h3>Clean the ribs</h3>
-                        <p>Trim extra fat, rinse the ribs, and soak them in cold water for about 30 minutes to draw out excess blood. Drain well.</p>
-                        <button class="step-toggle" type="button" aria-pressed="false">Done</button>
-                    </div>
-                </li>
-                <li>
-                    <img class="step-image" src="assets/images/steps/step-02-parboil.png" alt="Pixel art of beef short ribs boiling with aromatics">
-                    <div>
-                        <h3>Parboil with aromatics</h3>
-                        <p>Boil 5 cups of water with onion, ginger, garlic, and scallion whites. Add the ribs, skim foam, then cook for about 10 minutes.</p>
-                        <button class="step-toggle" type="button" aria-pressed="false">Done</button>
-                    </div>
-                </li>
-                <li>
-                    <img class="step-image" src="assets/images/steps/step-03-stock.png" alt="Pixel art of clear stock being strained into a pot">
-                    <div>
-                        <h3>Save the stock</h3>
-                        <p>Remove the ribs, strain the stock, and skim off the fat. This stock becomes the base of the braising liquid.</p>
-                        <button class="step-toggle" type="button" aria-pressed="false">Done</button>
-                    </div>
-                </li>
-                <li>
-                    <img class="step-image" src="assets/images/steps/step-04-sauce.png" alt="Pixel art of soy pear garlic braising sauce being mixed">
-                    <div>
-                        <h3>Mix the sauce</h3>
-                        <p>Combine soy sauce, sugar, honey, rice wine, grated pear, grated onion, garlic, ginger, and black pepper. Hold the sesame oil for the finish.</p>
-                        <button class="step-toggle" type="button" aria-pressed="false">Done</button>
-                    </div>
-                </li>
-                <li>
-                    <img class="step-image" src="assets/images/steps/step-05-braise.png" alt="Pixel art of short ribs braising with radish, carrots, and mushrooms">
-                    <div>
-                        <h3>Braise in stages</h3>
-                        <p>Return ribs to the pot with sauce and 2 1/2 cups reserved stock. Cover and boil 20 to 30 minutes, then add radish, mushrooms, and carrots for about 20 minutes more.</p>
-                        <button class="step-toggle" type="button" aria-pressed="false">Done</button>
-                    </div>
-                </li>
-                <li>
-                    <img class="step-image" src="assets/images/steps/step-06-finish.png" alt="Pixel art of finished glossy galbijjim with scallion garnish">
-                    <div>
-                        <h3>Finish glossy</h3>
-                        <p>Add optional garnishes and cook uncovered for about 10 minutes until the sauce thickens. Stir in scallion greens and sesame oil just before serving.</p>
-                        <button class="step-toggle" type="button" aria-pressed="false">Done</button>
-                    </div>
-                </li>
-            </ol>
-        </section>
+        <!-- ===================== -->
+        <!-- 2D SPATIAL CANVASES -->
+        <!-- ===================== -->
 
-        <section class="notes" id="notes">
-            <div class="section-label">
-                <p>03</p>
-                <h2>Serve and Adjust</h2>
-            </div>
-            <div class="note-board">
-                <article>
-                    <h3>No sear required</h3>
-                    <p>Korean Bapsang notes that traditional galbijjim parboils the ribs rather than browning them first. Searing is optional if you want a deeper roasted flavor.</p>
-                </article>
-                <article>
-                    <h3>Control the sauce</h3>
-                    <p>Use medium-low heat and more time for tender meat with more sauce, or cook uncovered at the end to reduce faster and make the ribs shine.</p>
-                </article>
-                <article>
-                    <h3>Make it a meal</h3>
-                    <p>Serve with steamed rice, kimchi, and crisp vegetable banchan so the sweet-savory braise has something bright beside it.</p>
-                </article>
-            </div>
-        </section>
+        <div class="section-title">2D Canvas 1: Drawing with Primitives</div>
+        <p>
+            A static 2D drawing composed with primitive shapes, color, and spatial hierarchy.
+        </p>
+        <div id="canvas-container-1" class="canvas-box"></div>
+        
+        <div class="section-title">2D Canvas 2: Interactive or Animated Drawing</div>
+        <p>
+            An animated or interactive 2D drawing that changes through time or user input.
+        </p>
+        <div id="canvas-container-2" class="canvas-box"></div>
+
+
+        <!-- ===================== -->
+        <!-- 3D SPATIAL CANVASES -->
+        <!-- ===================== -->
+
+        <div class="section-title">3D Canvas 1: Orbiting Geometry</div>
+        <p>
+            A 3D composition using primitive geometry and an orbiting camera.
+        </p>
+        <div id="three-container-1" class="canvas-box"></div>
+
+        <div class="section-title">3D Canvas 2: Light, Material, and Atmosphere</div>
+        <p>
+            A 3D spatial study using lighting, material, fog, or atmospheric effects.
+        </p>
+        <div id="three-container-2" class="canvas-box"></div>
+
+
     </main>
 
-    <footer>
-        <p>Recipe content adapted from Korean Bapsang. Visual system by Jae Hyun Lee.</p>
-        <p class="meme-note">*The short rib recipe became a meme comment on Korean web comic platform to describe comments that have absolutely nothing to do with the comic&mdash;such as cooking recipes&mdash;being featured as &ldquo;best comments.&rdquo; This often occurs when a story takes a strange turn or a problem arises, yet the author continues serializing the comic without addressing these issues or taking readers&rsquo; opinions into account.*</p>
-    </footer>
+    <!-- Load Three.js sketches -->
+    <script src="javascript/3js-01.js"></script>
+    <script src="javascript/3js-02.js"></script>
 
-    <script src="javascript/script.js"></script>
+    <!-- Load p5.js sketches -->
+    <script src="javascript/2d-drawing.js"></script>
+    <script src="javascript/2d-interactive.js"></script>
+
 </body>
 </html>
