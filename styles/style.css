@@ -10,11 +10,12 @@ header {
     display: flex;
     justify-content: space-between;
     padding: 24px;
-    border-bottom: 1px solid #ff5e00;
+    border-bottom: 1px solid #ccff00;
 }
 
 main {
     font-size: 11px;
+    color: #d1d1d1
     width: 80%;
     max-width: 900px;
     margin: 60px auto;
@@ -48,5 +49,5 @@ main {
     min-height: 400px;
     margin-top: 20px;
     margin-bottom: 60px;
-    border: 1px solid #ff5e00;
+    border: 1px solid #ccff00;
 }
