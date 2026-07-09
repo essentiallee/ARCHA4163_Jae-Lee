@@ -1,76 +1,70 @@
+// 2D Canvas 1: Drawing with Primitives
+// This sketch practices basic p5.js shapes:
+// rectangle, circle, triangle, line, and text.
+
 let sketch1 = function(p) {
 
     p.setup = function() {
+        // create the canvas size
         let canvas = p.createCanvas(700, 450);
+
+        // attach this canvas to the HTML container
         canvas.parent("canvas-container-1");
 
+        // noLoop means the drawing only happens once
+        // this makes it a static drawing
         p.noLoop();
     };
 
     p.draw = function() {
+        // background color
         p.background(238, 234, 226);
 
-        // outer composition frame
+        // -----------------------------
+        // 1. Draw a simple frame
+        // -----------------------------
         p.noFill();
-        p.stroke(25);
+        p.stroke(30);
         p.strokeWeight(1);
-        p.rect(40, 40, 620, 370);
+        p.rect(50, 50, 600, 350);
 
-        // large black mass
+        // -----------------------------
+        // 2. Draw a large rectangle
+        // -----------------------------
         p.noStroke();
-        p.fill(18, 18, 18);
-        p.rect(80, 95, 170, 250);
+        p.fill(30, 30, 30);
+        p.rect(100, 120, 160, 220);
 
-        // red circle
-        p.fill(180, 48, 38);
-        p.circle(335, 210, 155);
+        // -----------------------------
+        // 3. Draw a circle
+        // -----------------------------
+        p.fill(180, 60, 45);
+        p.circle(360, 230, 140);
 
-        // blue vertical rectangle
-        p.fill(38, 72, 140);
-        p.rect(460, 85, 70, 260);
+        // -----------------------------
+        // 4. Draw a triangle
+        // -----------------------------
+        p.fill(50, 90, 150);
+        p.triangle(500, 120, 430, 340, 580, 340);
 
-        // pale architectural block
-        p.fill(210, 202, 185);
-        p.rect(545, 160, 65, 185);
-
-        // diagonal line system
-        p.stroke(18);
+        // -----------------------------
+        // 5. Add a few simple lines
+        // -----------------------------
+        p.stroke(30);
         p.strokeWeight(2);
-        p.line(90, 360, 610, 90);
+        p.line(100, 360, 600, 90);
 
         p.strokeWeight(1);
-        p.line(120, 385, 620, 135);
-        p.line(70, 300, 500, 70);
+        p.line(120, 90, 120, 360);
+        p.line(580, 90, 580, 360);
 
-        // smaller circular nodes
+        // -----------------------------
+        // 6. Add title text
+        // -----------------------------
         p.noStroke();
-        p.fill(245, 210, 80);
-        p.circle(150, 130, 32);
-
-        p.fill(18);
-        p.circle(570, 120, 22);
-
-        p.fill(238, 234, 226);
-        p.circle(335, 210, 55);
-
-        // small grid marks
-        p.stroke(18);
-        p.strokeWeight(1);
-
-        for (let x = 285; x <= 420; x += 15) {
-            p.line(x, 345, x, 365);
-        }
-
-        for (let y = 105; y <= 315; y += 15) {
-            p.line(430, y, 450, y);
-        }
-
-        // title text inside canvas
-        p.noStroke();
-        p.fill(18);
-        p.textSize(12);
-        p.textAlign(p.LEFT);
-        p.text("2D PRIMITIVE FIELD / STATIC STUDY", 80, 385);
+        p.fill(30);
+        p.textSize(14);
+        p.text("Static Primitive Composition", 100, 390);
     };
 };
 
