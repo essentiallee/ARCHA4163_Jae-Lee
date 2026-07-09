@@ -45,7 +45,7 @@ main {
 
 .canvas-box {
     width: 600px;
-    min-height: 400px;
+    min-height: 300px;
     margin-top: 20px;
     margin-bottom: 60px;
     border: 1px solid #ccff00;
