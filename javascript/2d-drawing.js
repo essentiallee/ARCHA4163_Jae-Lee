@@ -41,4 +41,16 @@ let sketch1 = function(p) {
     };
 };
 
+    function drawGrid() {
+        p.stroke(200);
+        p.strokeWeight(1);
+        for (var x = 0; x <= p.width; x += gridSpacing) {
+            p.line(x, 0, x, p.height);
+    }
+        for (var y = 0; y <= p.height; y += gridSpacing) {
+            p.line(0, y, p.width, y);
+    }
+    }
+
+
 new p5(sketch1);
