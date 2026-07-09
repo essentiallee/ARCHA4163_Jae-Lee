@@ -1,9 +1,9 @@
 // 2D Canvas 1: Simple Primitive Mark
 
-let sketch1 = function(p) {
+var sketch1 = function(p) {
 
     p.setup = function() {
-        let canvas = p.createCanvas(600, 300);
+        var canvas = p.createCanvas(600, 300);
         canvas.parent("canvas-container-1");
         p.noLoop();
     };
