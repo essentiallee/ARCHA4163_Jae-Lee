@@ -1,97 +1,43 @@
-// 2D Canvas 1: Drawing with Primitives
-// A simple abstract mark using basic p5.js shapes.
-// The idea is inspired by logo construction: circles, rectangles,
-// horizontal alignment, and negative space.
+// 2D Canvas 1: Simple Primitive Mark
 
 let sketch1 = function(p) {
 
     p.setup = function() {
-        let canvas = p.createCanvas(720, 420);
+        let canvas = p.createCanvas(720, 360);
         canvas.parent("canvas-container-1");
-
-        // Static drawing: only draw once
         p.noLoop();
     };
 
     p.draw = function() {
-        // basic colors
-        let bg = p.color(242, 240, 233);     // warm white background
-        let ink = p.color(15, 15, 15);       // near-black
-        let guide = p.color(180, 70, 50);    // muted red construction line
+        p.background(242, 240, 233);
 
-        p.background(bg);
-
-        // -----------------------------
-        // 1. Light construction grid
-        // -----------------------------
-        p.stroke(210);
-        p.strokeWeight(1);
-
-        for (let x = 60; x <= 660; x += 60) {
-            p.line(x, 80, x, 330);
-        }
-
-        for (let y = 90; y <= 330; y += 60) {
-            p.line(60, y, 660, y);
-        }
-
-        // -----------------------------
-        // 2. Main black horizontal form
-        // -----------------------------
+        // main black shape
         p.noStroke();
-        p.fill(ink);
+        p.fill(15);
 
-        // center bar
-        p.rect(130, 190, 460, 42);
+        p.rect(180, 160, 360, 45);
+        p.ellipse(180, 182, 90, 90);
+        p.ellipse(540, 182, 90, 90);
+        p.rect(330, 110, 60, 145);
 
-        // rounded left and right ends
-        p.ellipse(130, 211, 84, 84);
-        p.ellipse(590, 211, 84, 84);
+        // negative space
+        p.fill(242, 240, 233);
+        p.ellipse(180, 182, 55, 55);
+        p.ellipse(540, 182, 55, 55);
+        p.rect(390, 205, 75, 50);
 
-        // -----------------------------
-        // 3. Vertical block
-        // -----------------------------
-        p.rect(330, 120, 60, 180);
-
-        // -----------------------------
-        // 4. Negative-space cuts
-        // Draw with the background color on top of the black shapes.
-        // This creates the feeling of carved-out geometry.
-        // -----------------------------
-        p.fill(bg);
-
-        // left circular cut
-        p.ellipse(145, 211, 58, 58);
-
-        // right circular cut
-        p.ellipse(575, 211, 58, 58);
-
-        // center lower cut
-        p.rect(390, 232, 85, 68);
-
-        // center upper cut
-        p.rect(245, 120, 85, 70);
-
-        // -----------------------------
-        // 5. Thin guide lines
-        // -----------------------------
-        p.stroke(guide);
+        // construction lines
+        p.stroke(170, 60, 45);
         p.strokeWeight(1);
+        p.line(120, 205, 600, 205);
+        p.line(330, 95, 330, 270);
+        p.line(390, 95, 390, 270);
 
-        // baseline
-        p.line(80, 232, 640, 232);
-
-        // vertical construction marks
-        p.line(330, 105, 330, 315);
-        p.line(390, 105, 390, 315);
-
-        // -----------------------------
-        // 6. Small label
-        // -----------------------------
+        // label
         p.noStroke();
-        p.fill(ink);
+        p.fill(15);
         p.textSize(12);
-        p.text("primitive mark / ellipse + rectangle + line", 80, 360);
+        p.text("primitive mark / ellipse + rectangle", 120, 300);
     };
 };
 
