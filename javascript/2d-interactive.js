@@ -42,11 +42,6 @@ var sketch2 = function(p) {
         p.line(275, 80, 275, 225);
         p.line(325, 80, 325, 225);
 
-        // label
-        p.noStroke();
-        p.fill(15);
-        p.textSize(12);
-        p.text("interactive primitive mark / move mouse", 100, 255);
     };
 };
 
