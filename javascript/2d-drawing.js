@@ -3,7 +3,7 @@
 let sketch1 = function(p) {
 
     p.setup = function() {
-        let canvas = p.createCanvas(720, 360);
+        let canvas = p.createCanvas(600, 300);
         canvas.parent("canvas-container-1");
         p.noLoop();
     };
@@ -15,29 +15,29 @@ let sketch1 = function(p) {
         p.noStroke();
         p.fill(15);
 
-        p.rect(180, 160, 360, 45);
-        p.ellipse(180, 182, 90, 90);
-        p.ellipse(540, 182, 90, 90);
-        p.rect(330, 110, 60, 145);
+        p.rect(150, 130, 300, 40);
+        p.ellipse(150, 150, 80, 80);
+        p.ellipse(450, 150, 80, 80);
+        p.rect(275, 90, 50, 120);
 
         // negative space
         p.fill(242, 240, 233);
-        p.ellipse(180, 182, 55, 55);
-        p.ellipse(540, 182, 55, 55);
-        p.rect(390, 205, 75, 50);
+        p.ellipse(150, 150, 50, 50);
+        p.ellipse(450, 150, 50, 50);
+        p.rect(325, 170, 65, 40);
 
         // construction lines
         p.stroke(170, 60, 45);
         p.strokeWeight(1);
-        p.line(120, 205, 600, 205);
-        p.line(330, 95, 330, 270);
-        p.line(390, 95, 390, 270);
+        p.line(100, 170, 500, 170);
+        p.line(275, 80, 275, 225);
+        p.line(325, 80, 325, 225);
 
         // label
         p.noStroke();
         p.fill(15);
         p.textSize(12);
-        p.text("primitive mark / ellipse + rectangle", 120, 300);
+        p.text("primitive mark / ellipse + rectangle", 100, 255);
     };
 };
 
