@@ -22,8 +22,8 @@ let sketch1 = function(p) {
 
         // negative space
         p.fill(242, 240, 233);
-        p.ellipse(150, 150, 50, 50);
-        p.ellipse(450, 150, 50, 50);
+        p.ellipse(150, 150, 60, 50);
+        p.ellipse(450, 150, 60, 50);
         p.rect(325, 170, 65, 40);
 
         // construction lines
@@ -33,24 +33,8 @@ let sketch1 = function(p) {
         p.line(275, 80, 275, 225);
         p.line(325, 80, 325, 225);
 
-        // label
-        p.noStroke();
-        p.fill(15);
-        p.textSize(12);
-        p.text("primitive mark / ellipse + rectangle", 100, 255);
     };
 };
-
-    function drawGrid() {
-        p.stroke(200);
-        p.strokeWeight(1);
-        for (var x = 0; x <= p.width; x += gridSpacing) {
-            p.line(x, 0, x, p.height);
-    }
-        for (var y = 0; y <= p.height; y += gridSpacing) {
-            p.line(0, y, p.width, y);
-    }
-    }
 
 
 new p5(sketch1);
