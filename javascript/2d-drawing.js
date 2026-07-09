@@ -1,71 +1,50 @@
-// 2D Canvas 1: Drawing with Primitives
-// This sketch practices basic p5.js shapes:
-// rectangle, circle, triangle, line, and text.
+// 2D Drawing Sketch - using p5.js instance mode
+var sketch1 = function(p) {
+  // All variables are scoped to this instance
+  var canvasWidth = 800;
+  var canvasHeight = 400;
+  var gridSpacing = 40;
+  var canvas;
 
-let sketch1 = function(p) {
+  p.setup = function() {
+    canvas = p.createCanvas(canvasWidth, canvasHeight);
+    canvas.parent('canvas-container-1');
+  };
 
-    p.setup = function() {
-        // create the canvas size
-        let canvas = p.createCanvas(700, 450);
+  p.draw = function() {
+    p.background(250);
+    drawGrid();
+    drawPrimitives();
+  };
 
-        // attach this canvas to the HTML container
-        canvas.parent("canvas-container-1");
+  function drawGrid() {
+    p.stroke(200);
+    p.strokeWeight(1);
+    for (var x = 0; x <= p.width; x += gridSpacing) {
+      p.line(x, 0, x, p.height);
+    }
+    for (var y = 0; y <= p.height; y += gridSpacing) {
+      p.line(0, y, p.width, y);
+    }
+  }
 
-        // noLoop means the drawing only happens once
-        // this makes it a static drawing
-        p.noLoop();
-    };
-
-    p.draw = function() {
-        // background color
-        p.background(238, 234, 226);
-
-        // -----------------------------
-        // 1. Draw a simple frame
-        // -----------------------------
-        p.noFill();
-        p.stroke(30);
-        p.strokeWeight(1);
-        p.rect(50, 50, 600, 350);
-
-        // -----------------------------
-        // 2. Draw a large rectangle
-        // -----------------------------
-        p.noStroke();
-        p.fill(30, 30, 30);
-        p.rect(100, 120, 160, 220);
-
-        // -----------------------------
-        // 3. Draw a circle
-        // -----------------------------
-        p.fill(180, 60, 45);
-        p.circle(360, 230, 140);
-
-        // -----------------------------
-        // 4. Draw a triangle
-        // -----------------------------
-        p.fill(50, 90, 150);
-        p.triangle(500, 120, 430, 340, 580, 340);
-
-        // -----------------------------
-        // 5. Add a few simple lines
-        // -----------------------------
-        p.stroke(30);
-        p.strokeWeight(2);
-        p.line(100, 360, 600, 90);
-
-        p.strokeWeight(1);
-        p.line(120, 90, 120, 360);
-        p.line(580, 90, 580, 360);
-
-        // -----------------------------
-        // 6. Add title text
-        // -----------------------------
-        p.noStroke();
-        p.fill(30);
-        p.textSize(14);
-        p.text("Static Primitive Composition", 100, 390);
-    };
+  function drawPrimitives() {
+    // Rectangle
+    p.fill(255, 100, 100);
+    p.rect(120, 80, 100, 60);
+    // Ellipse
+    p.fill(100, 180, 255);
+    p.ellipse(350, 200, 90, 90);
+    // Line
+    p.stroke(80, 200, 120);
+    p.strokeWeight(4);
+    p.line(500, 100, 700, 300);
+    // Triangle
+    p.noStroke();
+    p.fill(255, 220, 80);
+    p.triangle(600, 80, 750, 60, 700, 200);
+  }
 };
 
-new p5(sketch1);
+// Create the instance
+var myp5_1 = new p5(sketch1, 'canvas-container-1'); 
