@@ -3,106 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spatial Canvases</title>
+    <title>NY Gallery Shows Timeline</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="styles/style.css">
 
-    <!-- p5.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-    <!-- Three.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <!-- D3 Library -->
+    <!-- D3.js -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
 <body>
-    
-    <header>
-        <div class="left">
-            Columbia GSAPP<br>
-            <span>Jae Hyun Lee</span>
-        </div>
-        <div class="center">
-            Computational Design Workflow<br>
-            <span>Exploration of Digital Objects</span>
-        </div>
-    </header>
 
     <main>
-        <div class="project-meta">2026</div>
-        <div class="project-title">SPATIAL CANVASES</div>
+        <div class="project-meta">ARCHA4163: Temporal Structure<br>
+            JAE HYUN LEE
+        </div>
 
-        <div class="section-title">DIGITAL OBJECT: SPATIAL CANVASES</div>
+        <h1>NY Gallery Shows Timeline</h1>
 
-        <p>
-            This assignment explores how primitive digital geometry can become spatial composition.<br>
-            The 2D canvases investigate drawing and interaction through p5.js, while the
-            3D canvases translate those logics into volumetric space using Three.js.<br>
-            The drawing evolves from the first 2D drawing into 3D, animated geometry with lighting and atmospheric effects.<br>
-            I hardcoded the html file and the primitive drawings in p5.js.<br>
-            As the drawings evolve, I used Three.js and was assisted by AI, but I reviewed and editted the code,<br>
-            so that I understood the logic and the code structure of Three.js.
+        <p class="intro">
+            This D3.js visualization translates a personal New York gallery list into a temporal structure.
+            Each mark represents a show positioned by date and organized by neighborhood. The graphic keeps
+            the same visual language as the previous spatial canvases: off-white field, black marks, and red
+            construction lines.
         </p>
 
-        <!-- ===================== -->
-        <!-- 2D SPATIAL CANVASES -->
-        <!-- ===================== -->
+        <section>
+            <div class="section-title">Digital Object: Gallery Timeline</div>
 
-        <div class="section-title">2D CANVAS 01: DRAWING WITH PRIMITIVES</div>
-        <p>
-            A static 2D drawing composed with primitive shapes, color, and spatial hierarchy.
-        </p>
-        <div id="canvas-container-1" class="canvas-box"></div>
-        
-        <div class="section-title">2D CANVAS 02: INTERACTIVE OR ANIMATED DRAWING</div>
-        <p>
-            An animated or interactive 2D drawing that changes through user's mouse cursor movement.
-        </p>
-        <div id="canvas-container-2" class="canvas-box"></div>
+            <p>
+                The timeline uses show dates from the uploaded CSV file. Shows are grouped by area, while the
+                horizontal axis represents time.
+            </p>
 
-
-        <!-- ===================== -->
-        <!-- 3D SPATIAL CANVASES -->
-        <!-- ===================== -->
-
-        <div class="section-title">3D CANVAS 01: ORBITING GEOMETRY</div>
-        <p>
-            A 3D composition using primitive geometry and an orbiting camera.
-        </p>
-        <div id="three-container-1" class="canvas-box"></div>
-
-        <div class="section-title">3D CANVAS 02: LIGHT, MATERIAL, AND ATMOSPHERE</div>
-        <p>
-            A 3D spatial study using lighting, material, fog, or atmospheric effects.
-        </p>
-        <div id="three-container-2" class="canvas-box"></div>
-
-
-        <!-- ===================== -->
-        <!-- D3 CANVAS -->
-        <!-- ===================== -->
-
-
-        <div class="section-title">Digital Object 2: Temporal Structures</div>
-        <p>
-            D3.js canvas visualizes a synthetic design-development timeline.   
-        </p>
-        <div id="d3-container-1" class="canvas-box"></div>
-
-
+            <div id="d3-container-1" class="canvas-box"></div>
+        </section>
     </main>
 
-    <!-- Load Three.js sketches -->
-    <script src="javascript/3js-01.js"></script>
-    <script src="javascript/3js-02.js"></script>
-
-    <!-- Load p5.js sketches -->
-    <script src="javascript/2d-drawing.js"></script>
-    <script src="javascript/2d-interactive.js"></script>
-
-    <!-- Load D3.js sketches -->
+    <!-- D3 timeline script -->
     <script src="javascript/d3-temporal.js"></script>
 
 </body>
