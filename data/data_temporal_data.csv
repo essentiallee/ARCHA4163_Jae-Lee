@@ -1,6 +1,6 @@
-name,start,end,category
-Research,2026,2027,Thinking
-Prototype,2027,2028,Making
-Testing,2028,2029,Evaluation
-Public Launch,2029,2030,Release
-Archive,2030,2031,Memory
+name,start,end
+Research,2026-01-01,2026-02-15
+Drawing,2026-02-01,2026-03-20
+Modeling,2026-03-01,2026-04-10
+Atmosphere,2026-04-01,2026-05-20
+Archive,2026-05-01,2026-06-15
