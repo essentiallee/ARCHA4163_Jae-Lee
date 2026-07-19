@@ -1,0 +1,15 @@
+id,label,type,area,priority,description
+start,Start,anchor,chelsea,must,Starting point for the day trip
+chelsea,Chelsea,area,chelsea,,Neighborhood cluster
+zwirner,David Zwirner,gallery,chelsea,must,Priority Chelsea gallery
+pace,Pace Gallery,gallery,chelsea,maybe,Chelsea gallery stop
+hauser,Hauser & Wirth,gallery,chelsea,maybe,Chelsea gallery stop
+greene,Greene Naftali,gallery,chelsea,must,Chelsea gallery stop
+highline,High Line / Break,anchor,chelsea,maybe,Transition point between Chelsea and downtown
+soho,SoHo,area,soho,,Neighborhood cluster
+drawing_center,The Drawing Center,gallery,soho,must,SoHo gallery stop
+artists_space,Artists Space,gallery,soho,maybe,Downtown gallery stop
+chinatown,Chinatown,area,chinatown,,Neighborhood cluster
+canal_projects,Canal Projects,gallery,chinatown,maybe,Chinatown gallery stop
+chapter_ny,Chapter NY,gallery,chinatown,maybe,Chinatown gallery stop
+end,End,anchor,chinatown,must,Ending point for the day trip
