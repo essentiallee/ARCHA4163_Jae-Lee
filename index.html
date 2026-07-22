@@ -13,6 +13,8 @@
 
     <!-- D3.js -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
 </head>
 
 <body>
@@ -53,11 +55,28 @@
 
         <div id="d3-relational-container" class="canvas-box"></div>
         </section>
+
+        <section>
+        <div class="section-title">GeoSpatial Visualization: Mapbox</div>
+
+        <p>
+            Mapbox
+        </p>
+
+        <div id="mapbox-container-1"></div>
+
+        <div class="controls">
+            <button id="zoomIn"> Zoom In</button>
+            <button id="zoomOut"> Zoom Out</button>
+            <buttion id="reset"> Reset</button>
+        </div>
+        </section>
     </main>
 
     <!-- D3 timeline script -->
     <script src="javascript/d3-temporal.js"></script>
     <script src="javascript/d3-relational.js"></script>
+    <script src="javascript/mapbox.js"></script>
 
 </body>
 </html>
