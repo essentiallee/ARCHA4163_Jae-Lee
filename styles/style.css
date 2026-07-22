@@ -223,3 +223,92 @@ p {
     max-height: 45%;
   }
 }
+
+/* ---------------------------------------
+   SECTION SPACING
+--------------------------------------- */
+
+section {
+  margin-bottom: 90px;
+}
+
+
+/* ---------------------------------------
+   MAPBOX MAP
+--------------------------------------- */
+
+#mapbox-container-1 {
+  position: relative;
+  width: 90vw;
+  height: 650px;
+  margin-top: 32px;
+  background: #f2f0e9;
+  border: 1px solid #d7ff00;
+  overflow: hidden;
+}
+
+
+/* ---------------------------------------
+   MAPBOX BUTTONS
+--------------------------------------- */
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.controls button {
+  padding: 10px 16px;
+
+  background: #111111;
+  color: #f2f0e9;
+
+  border: 1px solid #d7ff00;
+
+  font-family: "Barlow Condensed", Arial, sans-serif;
+  font-size: 17px;
+
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #d7ff00;
+  color: #111111;
+}
+
+
+/* ---------------------------------------
+   MAPBOX POPUPS
+--------------------------------------- */
+
+.mapboxgl-popup-content {
+  background: #111111;
+  color: #f2f0e9;
+
+  border: 1px solid #d7ff00;
+
+  font-family: "Barlow Condensed", Arial, sans-serif;
+}
+
+.mapboxgl-popup-close-button {
+  color: #f2f0e9;
+  font-size: 20px;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: #111111 !important;
+  border-bottom-color: #111111 !important;
+}
+
+
+/* ---------------------------------------
+   MOBILE
+--------------------------------------- */
+
+@media (max-width: 700px) {
+  #mapbox-container-1 {
+    width: 90vw;
+    height: 700px;
+  }
+}

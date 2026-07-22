@@ -1,82 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NY Gallery Shows Timeline</title>
+  <meta charset="UTF-8">
 
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles/style.css">
+  <title>NY Gallery Visualization</title>
 
-    <!-- D3.js -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Google font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
 
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+  <!-- Your CSS -->
+  <link
+    rel="stylesheet"
+    href="styles/style.css"
+  >
+
+  <!-- D3 -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <!-- Mapbox CSS -->
+  <link
+    href="https://api.mapbox.com/mapbox-gl-js/v3.25.0/mapbox-gl.css"
+    rel="stylesheet"
+  >
+
+  <!-- Mapbox JavaScript -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.25.0/mapbox-gl.js"></script>
 </head>
 
 <body>
 
-    <main>
-        <div class="project-meta">ARCHA4163: Temporal Structure<br>
-            JAE HYUN LEE
-        </div>
+  <main>
 
-        <h1>NY Gallery Shows Timeline</h1>
+    <div class="project-meta">
+      ARCHA4163: INTERACTIVE WEB<br>
+      JAE HYUN LEE
+    </div>
 
-        <p class="intro">
-            This D3.js visualization translates a personal New York gallery list into a temporal structure.
-            Each mark represents a show positioned by date and organized by neighborhood. The graphic keeps
-            the same visual language as the previous spatial canvases: off-white field, black marks, and red
-            construction lines.
-        </p>
+    <h1>NY Gallery Visualization</h1>
 
-        <section>
-            <div class="section-title">Digital Object: Gallery Timeline</div>
+    <p class="intro">
+      This project explores New York galleries through temporal,
+      relational, and geographic visualization.
+    </p>
 
-            <p>
-                The timeline uses show dates from the uploaded CSV file. Shows are grouped by area, while the
-                horizontal axis represents time.
-            </p>
 
-            <div id="d3-container-1" class="canvas-box"></div>
-        </section>
+    <!-- ==========================================
+         D3 TEMPORAL VISUALIZATION
+    =========================================== -->
 
-        <section>
-        <div class="section-title">Digital Object: Gallery Route Network</div>
+    <section>
 
-        <p>
-        This relational structure visualizes galleries, neighborhoods, and possible walking connections
-        as a route-planning network. Nodes represent destinations and areas, while edges represent
-        neighborhood membership, walkable connections, and suggested day-trip sequences.
-        </p>
+      <div class="section-title">
+        Digital Object: Gallery Timeline
+      </div>
 
-        <div id="d3-relational-container" class="canvas-box"></div>
-        </section>
-<section>
-  <div class="section-title">GeoSpatial Visualization: Mapbox</div>
+      <p>
+        The timeline organizes gallery shows by neighborhood and date.
+        Move across the visualization to change the selected planning date.
+      </p>
 
-  <p>
-    Select individual galleries and generate an optimized walking route
-    between them.
-  </p>
+      <div
+        id="d3-container-1"
+        class="canvas-box"
+      ></div>
 
-  <div id="mapbox-container-1"></div>
+    </section>
 
-  <div class="controls">
-    <button id="zoomIn">Zoom In</button>
-    <button id="zoomOut">Zoom Out</button>
-    <button id="reset">Reset</button>
-  </div>
-</section>
-    </main>
 
-    <!-- D3 timeline script -->
-    <script src="javascript/d3-temporal.js"></script>
-    <script src="javascript/d3-relational.js"></script>
-    <script src="javascript/mapbox.js"></script>
+    <!-- ==========================================
+         D3 RELATIONAL VISUALIZATION
+    =========================================== -->
+
+    <section>
+
+      <div class="section-title">
+        Digital Object: Gallery Route Network
+      </div>
+
+      <p>
+        This relational structure visualizes galleries, neighborhoods,
+        and possible walking connections as a route-planning network.
+      </p>
+
+      <div
+        id="d3-relational-container"
+        class="canvas-box"
+      ></div>
+
+    </section>
+
+
+    <!-- ==========================================
+         MAPBOX VISUALIZATION
+    =========================================== -->
+
+    <section>
+
+      <div class="section-title">
+        Geospatial Visualization: Mapbox
+      </div>
+
+      <p>
+        Select two galleries to generate a walking route between them.
+        Click a selected gallery again to remove it.
+      </p>
+
+      <div id="mapbox-container-1"></div>
+
+      <div class="controls">
+        <button id="zoomIn" type="button">
+          Zoom In
+        </button>
+
+        <button id="zoomOut" type="button">
+          Zoom Out
+        </button>
+
+        <button id="reset" type="button">
+          Reset
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- Your JavaScript files -->
+
+  <script src="javascript/d3-temporal.js"></script>
+
+  <script src="javascript/d3-relational.js"></script>
+
+  <script src="javascript/mapBox-sketch-01.js"></script>
 
 </body>
+
 </html>
