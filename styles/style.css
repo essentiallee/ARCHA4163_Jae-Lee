@@ -77,3 +77,149 @@ p {
 .canvas-box svg {
     display: block;
 }
+
+/* --------------------------------------------------
+   MAPBOX
+-------------------------------------------------- */
+
+#mapbox-container-1 {
+  position: relative;
+  width: 90vw;
+  height: 650px;
+  margin-top: 32px;
+  background: #f2f0e9;
+  border: 1px solid #d7ff00;
+  overflow: hidden;
+}
+
+/* Route-selection panel inside map */
+
+.gallery-route-panel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  width: min(330px, calc(100% - 90px));
+  max-height: calc(100% - 32px);
+  padding: 16px;
+  overflow-y: auto;
+  background: rgba(17, 17, 17, 0.94);
+  color: #f2f0e9;
+  border: 1px solid #d7ff00;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+}
+
+.gallery-route-title {
+  margin-bottom: 8px;
+  color: #d7ff00;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+#gallery-route-status {
+  margin-bottom: 12px;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+#gallery-route-selection {
+  margin-bottom: 14px;
+}
+
+.gallery-route-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(242, 240, 233, 0.2);
+  font-size: 14px;
+}
+
+.gallery-route-item small {
+  color: #aa3c2d;
+  font-weight: 700;
+}
+
+.gallery-route-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gallery-route-buttons button,
+.controls button {
+  padding: 8px 12px;
+  border: 1px solid #d7ff00;
+  background: #111111;
+  color: #f2f0e9;
+  font-family: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.gallery-route-buttons button:hover,
+.controls button:hover {
+  background: #d7ff00;
+  color: #111111;
+}
+
+.gallery-route-buttons button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* Popup styling */
+
+.mapboxgl-popup-content {
+  background: #111111;
+  color: #f2f0e9;
+  border: 1px solid #d7ff00;
+  font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+}
+
+.mapboxgl-popup-close-button {
+  color: #f2f0e9;
+  font-size: 20px;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: #111111 !important;
+  border-bottom-color: #111111 !important;
+}
+
+.gallery-popup h3 {
+  margin: 0 20px 10px 0;
+  color: #d7ff00;
+  font-size: 21px;
+}
+
+.gallery-popup p {
+  margin: 5px 0;
+  font-size: 15px;
+}
+
+.gallery-popup a {
+  display: inline-block;
+  margin-top: 8px;
+  color: #d7ff00;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+@media (max-width: 700px) {
+  #mapbox-container-1 {
+    height: 700px;
+  }
+
+  .gallery-route-panel {
+    top: auto;
+    bottom: 16px;
+    width: calc(100% - 32px);
+    max-height: 45%;
+  }
+}
