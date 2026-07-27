@@ -48,8 +48,8 @@
     <h1>NY Gallery Visualization</h1>
 
     <p class="intro">
-      This project explores New York galleries through temporal,
-      relational, and geographic visualization.
+      This project explores New York galleries through temporal
+      and geographic visualization.
     </p>
 
 
@@ -65,7 +65,8 @@
 
       <p>
         The timeline organizes gallery shows by neighborhood and date.
-        Move across the visualization to change the selected planning date.
+        Move across the visualization to change the selected planning date,
+        or click a show bar to locate its gallery on the map.
       </p>
 
       <div
@@ -74,30 +75,6 @@
       ></div>
 
     </section>
-
-
-    <!-- ==========================================
-         D3 RELATIONAL VISUALIZATION
-    =========================================== -->
-
-    <section>
-
-      <div class="section-title">
-        Digital Object: Gallery Route Network
-      </div>
-
-      <p>
-        This relational structure visualizes galleries, neighborhoods,
-        and possible walking connections as a route-planning network.
-      </p>
-
-      <div
-        id="d3-relational-container"
-        class="canvas-box"
-      ></div>
-
-    </section>
-
 
     <!-- ==========================================
          MAPBOX VISUALIZATION
@@ -137,11 +114,14 @@
 
   <!-- Your JavaScript files -->
 
-  <script src="javascript/d3-temporal.js"></script>
+  <script
+    type="module"
+    src="javascript/firebase-analytics.js?v=3"
+  ></script>
 
-  <script src="javascript/d3-relational.js"></script>
+  <script src="javascript/d3-temporal.js?v=5"></script>
 
-  <script src="javascript/mapBox-sketch-01.js"></script>
+  <script src="javascript/mapBox-sketch-01.js?v=4"></script>
 
 </body>
 

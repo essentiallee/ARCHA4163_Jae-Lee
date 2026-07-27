@@ -6,6 +6,66 @@
 (function() {
 
     var csvPath = "data/ny-gallery-shows-timeline.csv";
+    var selectedGalleryNames = new Set();
+    var refreshTimelineSelection = null;
+
+    function normalizeGalleryName(value) {
+        return String(value || "")
+            .trim()
+            .toLowerCase()
+            .replace(/\s+/g, " ");
+    }
+
+    window.addEventListener(
+        "gallery:selection-changed",
+        function(event) {
+            var galleryNames =
+                event.detail && event.detail.galleryNames
+                    ? event.detail.galleryNames
+                    : [];
+
+            selectedGalleryNames = new Set(
+                galleryNames.map(normalizeGalleryName)
+            );
+
+            if (refreshTimelineSelection) {
+                refreshTimelineSelection();
+            }
+        }
+    );
+
+    function recordAndFocusGallery(d) {
+        window.dispatchEvent(
+            new CustomEvent(
+                "gallery:selection-changed",
+                {
+                    detail: {
+                        galleryNames: [d.gallery]
+                    }
+                }
+            )
+        );
+
+        window.dispatchEvent(
+            new CustomEvent("gallery:clicked", {
+                detail: {
+                    source: "timeline",
+                    galleryName: d.gallery,
+                    showName: d.show,
+                    area: d.area
+                }
+            })
+        );
+
+        window.dispatchEvent(
+            new CustomEvent("gallery:focus", {
+                detail: {
+                    gallery: d.gallery,
+                    show: d.show
+                }
+            })
+        );
+    }
 
     d3.csv(csvPath).then(function(data) {
 
@@ -111,6 +171,14 @@
 
         // color changes according to the movable planning line
         function markColor(d, planningDate) {
+            if (
+                selectedGalleryNames.has(
+                    normalizeGalleryName(d.gallery)
+                )
+            ) {
+                return "#d7ff00";
+            }
+
             if (planningDate < d.start) {
                 return "#111111";     // upcoming
             }
@@ -123,6 +191,14 @@
         }
 
         function markOpacity(d, planningDate) {
+            if (
+                selectedGalleryNames.has(
+                    normalizeGalleryName(d.gallery)
+                )
+            ) {
+                return 1;
+            }
+
             if (planningDate > d.end) {
                 return 0.35;
             }
@@ -131,6 +207,14 @@
         }
 
         function markWidth(d, planningDate) {
+            if (
+                selectedGalleryNames.has(
+                    normalizeGalleryName(d.gallery)
+                )
+            ) {
+                return 8;
+            }
+
             if (planningDate >= d.start && planningDate <= d.end) {
                 return 5;
             }
@@ -233,7 +317,8 @@
             .attr("y2", function(d) {
                 return yPosition(d);
             })
-            .attr("stroke-linecap", "round");
+            .attr("stroke-linecap", "round")
+            .style("pointer-events", "none");
 
         // hover tooltip
         showMarks.append("title")
@@ -243,6 +328,64 @@
                        d.area + "\n" +
                        d.date_text + "\n" +
                        d.priority;
+            });
+
+        // Wider invisible targets make short show bars easier to click.
+        var showHitTargets = svg.selectAll(".show-hit-target")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("class", "show-hit-target")
+            .attr("x", function(d) {
+                if (d.date_type === "single") {
+                    return xScale(d.end) - 10;
+                }
+
+                return xScale(d.start) - 5;
+            })
+            .attr("width", function(d) {
+                if (d.date_type === "single") {
+                    return 20;
+                }
+
+                return Math.max(
+                    20,
+                    xScale(d.end) - xScale(d.start) + 10
+                );
+            })
+            .attr("y", function(d) {
+                return yPosition(d) - 9;
+            })
+            .attr("height", 18)
+            .attr("rx", 9)
+            .attr("fill", "transparent")
+            .style("pointer-events", "all")
+            .style("cursor", "pointer")
+            .attr("tabindex", 0)
+            .attr("role", "button")
+            .attr("aria-pressed", function(d) {
+                return selectedGalleryNames.has(
+                    normalizeGalleryName(d.gallery)
+                )
+                    ? "true"
+                    : "false";
+            })
+            .attr("aria-label", function(d) {
+                return "Locate " + d.gallery + " on the map";
+            })
+            .on("click", function(event, d) {
+                recordAndFocusGallery(d);
+            })
+            .on("keydown", function(event, d) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    recordAndFocusGallery(d);
+                }
+            });
+
+        showHitTargets.append("title")
+            .text(function(d) {
+                return "Click to locate " + d.gallery + " on the map";
             });
 
         // x axis
@@ -266,7 +409,8 @@
 
         // movable planning line group
         var markerGroup = svg.append("g")
-            .attr("class", "planning-marker");
+            .attr("class", "planning-marker")
+            .style("pointer-events", "none");
 
         markerGroup.append("line")
             .attr("y1", margin.top - 26)
@@ -292,25 +436,74 @@
             .attr("y", height - 30)
             .attr("fill", "#111111")
             .attr("font-size", "11px")
-            .text("black = upcoming     red = open on selected date     gray = already closed");
+            .text("lime = selected gallery     black = upcoming     red = open     gray = closed");
 
-        // transparent interaction layer
-        svg.append("rect")
-            .attr("x", margin.left)
-            .attr("y", margin.top - 36)
-            .attr("width", width - margin.left - margin.right)
-            .attr("height", axisY - margin.top + 36)
-            .attr("fill", "transparent")
-            .on("mousemove", function(event) {
-                var mouse = d3.pointer(event);
-                var mouseX = mouse[0];
+        // Track the planning date across the plot without covering show targets.
+        svg.on("mousemove.planning", function(event) {
+            var mouse = d3.pointer(event);
+            var mouseX = mouse[0];
+            var mouseY = mouse[1];
 
+            if (
+                mouseX >= margin.left &&
+                mouseX <= width - margin.right &&
+                mouseY >= margin.top - 36 &&
+                mouseY <= axisY
+            ) {
                 updatePlanningLine(mouseX);
-            });
+            }
+        });
 
         // initial planning line position
         var initialDate = d3.timeParse("%Y-%m-%d")("2026-07-12");
         var initialX = xScale(initialDate);
+
+        var currentPlanningDate =
+            xScale.invert(initialX);
+
+        refreshTimelineSelection =
+            function() {
+                showMarks
+                    .attr("stroke", function(d) {
+                        return markColor(
+                            d,
+                            currentPlanningDate
+                        );
+                    })
+                    .attr("stroke-width", function(d) {
+                        return markWidth(
+                            d,
+                            currentPlanningDate
+                        );
+                    })
+                    .attr("opacity", function(d) {
+                        return markOpacity(
+                            d,
+                            currentPlanningDate
+                        );
+                    });
+
+                showHitTargets
+                    .attr("aria-pressed", function(d) {
+                        return selectedGalleryNames.has(
+                            normalizeGalleryName(
+                                d.gallery
+                            )
+                        )
+                            ? "true"
+                            : "false";
+                    });
+
+                showMarks
+                    .filter(function(d) {
+                        return selectedGalleryNames.has(
+                            normalizeGalleryName(
+                                d.gallery
+                            )
+                        );
+                    })
+                    .raise();
+            };
 
         updatePlanningLine(initialX);
 
@@ -325,6 +518,7 @@
             }
 
             var planningDate = xScale.invert(mouseX);
+            currentPlanningDate = planningDate;
 
             markerGroup.attr("transform", "translate(" + mouseX + ",0)");
 
@@ -332,16 +526,7 @@
 
             activeDateText.text("planning date: " + d3.timeFormat("%B %d, %Y")(planningDate));
 
-            showMarks
-                .attr("stroke", function(d) {
-                    return markColor(d, planningDate);
-                })
-                .attr("stroke-width", function(d) {
-                    return markWidth(d, planningDate);
-                })
-                .attr("opacity", function(d) {
-                    return markOpacity(d, planningDate);
-                });
+            refreshTimelineSelection();
         }
     }
 

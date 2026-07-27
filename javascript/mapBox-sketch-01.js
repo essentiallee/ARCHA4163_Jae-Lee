@@ -91,6 +91,11 @@ var mapboxSketch = function () {
     </div>
 
     <div
+      id="timeline-focus"
+      style="display:none; margin-top:10px; color:#d7ff00;"
+    ></div>
+
+    <div
       id="route-selection"
       style="margin-top:10px;"
     ></div>
@@ -109,11 +114,15 @@ var mapboxSketch = function () {
   const routeResultDisplay =
     panel.querySelector("#route-result");
 
+  const timelineFocusDisplay =
+    panel.querySelector("#timeline-focus");
+
   // First item = start.
   // Second item = destination.
   let selectedGalleries = [];
 
   let allGalleryData = null;
+  let pendingTimelineFocus = null;
 
   // --------------------------------------------------
   // 3. HELPER FUNCTIONS
@@ -144,6 +153,153 @@ var mapboxSketch = function () {
       `${properties.gallery}-${coordinates[0]}-${coordinates[1]}`
     );
   }
+
+  function recordMapGalleryClick(feature) {
+    const properties =
+      feature.properties || {};
+
+    window.dispatchEvent(
+      new CustomEvent("gallery:clicked", {
+        detail: {
+          source: "map",
+          galleryId:
+            properties.gallery_id,
+          galleryName:
+            properties.gallery,
+          area:
+            properties.neighborhood,
+          accessStatus:
+            properties.current_access_status
+        }
+      })
+    );
+  }
+
+  function broadcastMapGallerySelection() {
+    window.dispatchEvent(
+      new CustomEvent(
+        "gallery:selection-changed",
+        {
+          detail: {
+            galleryNames:
+              selectedGalleries.map(
+                function (feature) {
+                  const properties =
+                    feature.properties ||
+                    {};
+
+                  return (
+                    properties
+                      .timeline_gallery_name ||
+                    properties.gallery
+                  );
+                }
+              )
+          }
+        }
+      )
+    );
+  }
+
+  function normalizeTimelineGalleryName(value) {
+    return String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, " ");
+  }
+
+  function focusGalleryFromTimeline(detail) {
+    if (!detail || !detail.gallery) {
+      return;
+    }
+
+    pendingTimelineFocus = detail;
+
+    const focusedSource =
+      map.getSource("focused-gallery");
+
+    if (!allGalleryData || !focusedSource) {
+      return;
+    }
+
+    const requestedName =
+      normalizeTimelineGalleryName(
+        detail.gallery
+      );
+
+    const focusedGallery =
+      allGalleryData.features.find(
+        function (feature) {
+          return (
+            normalizeTimelineGalleryName(
+              feature.properties
+                .timeline_gallery_name
+            ) === requestedName
+          );
+        }
+      );
+
+    if (!focusedGallery) {
+      console.warn(
+        `No map location found for "${detail.gallery}".`
+      );
+      pendingTimelineFocus = null;
+      return;
+    }
+
+    focusedSource.setData({
+      type: "FeatureCollection",
+      features: [focusedGallery]
+    });
+
+    mapContainer.dataset.focusedGallery =
+      focusedGallery.properties.gallery_id;
+
+    timelineFocusDisplay.style.display =
+      "block";
+
+    timelineFocusDisplay.innerHTML = `
+      <strong>TIMELINE FOCUS:</strong><br>
+      ${escapeHTML(
+        focusedGallery.properties.gallery
+      )}
+      ${
+        detail.show
+          ? `<br><span style="color:#f2f0e9;">${escapeHTML(detail.show)}</span>`
+          : ""
+      }
+    `;
+
+    pendingTimelineFocus = null;
+
+    mapContainer.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+    map.once("moveend", function () {
+      showGalleryPopup(
+        focusedGallery
+      );
+    });
+
+    map.flyTo({
+      center:
+        focusedGallery.geometry.coordinates,
+      zoom: 16,
+      duration: 1200,
+      essential: true
+    });
+  }
+
+  window.addEventListener(
+    "gallery:focus",
+    function (event) {
+      focusGalleryFromTimeline(
+        event.detail
+      );
+    }
+  );
 
   function clearRoute() {
     const routeSource =
@@ -243,7 +399,8 @@ var mapboxSketch = function () {
     );
 
     new mapboxgl.Popup({
-      offset: 12
+      offset: 12,
+      closeOnMove: false
     })
       .setLngLat(coordinates)
       .setHTML(`
@@ -474,6 +631,7 @@ var mapboxSketch = function () {
 
       clearRoute();
       updateSelectedGalleries();
+      broadcastMapGallerySelection();
 
       return;
     }
@@ -491,6 +649,7 @@ var mapboxSketch = function () {
     );
 
     updateSelectedGalleries();
+    broadcastMapGallerySelection();
 
     if (selectedGalleries.length === 2) {
       createWalkingRoute();
@@ -520,6 +679,12 @@ var mapboxSketch = function () {
       map.addSource("galleries", {
         type: "geojson",
         data: allGalleryData
+      });
+
+      // Gallery focused from a timeline click.
+      map.addSource("focused-gallery", {
+        type: "geojson",
+        data: emptyFeatureCollection()
       });
 
       // Selected start and destination.
@@ -604,6 +769,27 @@ var mapboxSketch = function () {
             "#f2f0e9",
 
           "circle-stroke-width": 1.5
+        }
+      });
+
+      // --------------------------------------------------
+      // TIMELINE-FOCUSED GALLERY HIGHLIGHT
+      // --------------------------------------------------
+
+      map.addLayer({
+        id: "focused-gallery-point",
+
+        type: "circle",
+
+        source: "focused-gallery",
+
+        paint: {
+          "circle-radius": 16,
+          "circle-color":
+            "rgba(0, 0, 0, 0)",
+          "circle-stroke-color":
+            "#d7ff00",
+          "circle-stroke-width": 5
         }
       });
 
@@ -698,6 +884,12 @@ var mapboxSketch = function () {
         galleryCoordinates,
         70
       );
+
+      if (pendingTimelineFocus) {
+        focusGalleryFromTimeline(
+          pendingTimelineFocus
+        );
+      }
     } catch (error) {
       console.error(error);
 
@@ -735,6 +927,10 @@ var mapboxSketch = function () {
 
     const clickedFeature =
       clickedFeatures[0];
+
+    recordMapGalleryClick(
+      clickedFeature
+    );
 
     showGalleryPopup(
       clickedFeature
@@ -814,6 +1010,27 @@ var mapboxSketch = function () {
 
         clearRoute();
         updateSelectedGalleries();
+        broadcastMapGallerySelection();
+
+        const focusedSource =
+          map.getSource(
+            "focused-gallery"
+          );
+
+        if (focusedSource) {
+          focusedSource.setData(
+            emptyFeatureCollection()
+          );
+        }
+
+        delete mapContainer.dataset
+          .focusedGallery;
+
+        timelineFocusDisplay.style.display =
+          "none";
+
+        timelineFocusDisplay.textContent =
+          "";
 
         if (allGalleryData) {
           const galleryCoordinates =
