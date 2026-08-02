@@ -4,10 +4,14 @@
     "runtime": "nodejs22"
   },
   "hosting": {
-    "public": "public",
+    "public": ".",
     "ignore": [
       "firebase.json",
-      "**/.*",
+      ".firebaserc",
+      ".git/**",
+      ".gitignore",
+      "README.md",
+      "functions/**",
       "**/node_modules/**"
     ],
     "rewrites": [

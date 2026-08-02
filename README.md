@@ -17,10 +17,9 @@ This project uses the same flow. The only security change is that a small Fireba
 ## Chatbot files
 
 ```text
-public/
-  index.html                    The visible webpage and chat form
-  javascript/
-    gallery-chat.js             Sends a question and displays the answer
+index.html                      The visible webpage and chat form
+javascript/
+  gallery-chat.js               Sends a question and displays the answer
 
 functions/
   index.js                      Privately sends the question to OpenAI
@@ -31,15 +30,15 @@ functions/
 firebase.json                   Connects /api/chat to the private function
 ```
 
-The other files inside `public/` belong to the map and timeline portions of the project, not the chatbot tutorial.
+The other files inside `javascript/`, `styles/`, and `data/` belong to the map and timeline portions of the project, not the chatbot tutorial.
 
 ## What each chatbot file teaches
 
-### 1. `public/index.html`
+### 1. `index.html`
 
 Contains the chat messages, text box, Send button, and example questions.
 
-### 2. `public/javascript/gallery-chat.js`
+### 2. `javascript/gallery-chat.js`
 
 Reads the question, sends it to `/api/chat`, and places the answer on the page. This is the closest equivalent to the tutorial's `chat-bot.js`.
 
