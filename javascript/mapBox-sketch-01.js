@@ -62,6 +62,8 @@ var mapboxSketch = function () {
   panel.style.zIndex = "5";
   panel.style.width = "280px";
   panel.style.maxWidth = "calc(100% - 90px)";
+  panel.style.maxHeight = "280px";
+  panel.style.overflowY = "auto";
   panel.style.padding = "14px";
   panel.style.background = "rgba(255, 255, 255, 0.96)";
   panel.style.color = "#111111";
@@ -71,7 +73,7 @@ var mapboxSketch = function () {
   panel.style.fontSize = "15px";
   panel.style.lineHeight = "1.3";
   panel.style.boxSizing = "border-box";
-  panel.style.pointerEvents = "none";
+  panel.style.pointerEvents = "auto";
 
   panel.innerHTML = `
     <strong style="color:#42b6d1; font-size:18px;">
@@ -82,8 +84,8 @@ var mapboxSketch = function () {
       id="route-instructions"
       style="margin-top:8px;"
     >
-      Click one gallery for the start.<br>
-      Click another gallery for the destination.
+      Click galleries in the order you want to visit them.<br>
+      Click a selected gallery again to remove it.
     </div>
 
     <div
@@ -100,6 +102,10 @@ var mapboxSketch = function () {
       id="route-result"
       style="margin-top:10px; color:#42b6d1;"
     ></div>
+
+    <button id="download-route" type="button" disabled>
+      Download route CSV
+    </button>
   `;
 
   mapContainer.appendChild(panel);
@@ -113,12 +119,17 @@ var mapboxSketch = function () {
   const timelineFocusDisplay =
     panel.querySelector("#timeline-focus");
 
+  const downloadRouteButton =
+    panel.querySelector("#download-route");
+
   // First item = start.
   // Second item = destination.
   let selectedGalleries = [];
 
   let allGalleryData = null;
   let pendingTimelineFocus = null;
+  let currentRoute = null;
+  let routeRequestNumber = 0;
 
   // --------------------------------------------------
   // 3. HELPER FUNCTIONS
@@ -298,6 +309,10 @@ var mapboxSketch = function () {
   );
 
   function clearRoute() {
+    routeRequestNumber += 1;
+    currentRoute = null;
+    downloadRouteButton.disabled = true;
+
     const routeSource =
       map.getSource("walking-route");
 
@@ -326,41 +341,93 @@ var mapboxSketch = function () {
         "No galleries selected.";
     }
 
-    if (selectedGalleries.length === 1) {
+    if (selectedGalleries.length > 0) {
       selectionDisplay.innerHTML = `
-        <div>
-          <strong>START:</strong>
-          ${escapeHTML(
-            selectedGalleries[0].properties.gallery
-          )}
-        </div>
-
-        <div
-          style="margin-top:5px; opacity:0.8;"
-        >
-          Now select a destination.
-        </div>
-      `;
-    }
-
-    if (selectedGalleries.length === 2) {
-      selectionDisplay.innerHTML = `
-        <div>
-          <strong>START:</strong>
-          ${escapeHTML(
-            selectedGalleries[0].properties.gallery
-          )}
-        </div>
-
-        <div style="margin-top:5px;">
-          <strong>END:</strong>
-          ${escapeHTML(
-            selectedGalleries[1].properties.gallery
-          )}
-        </div>
+        <ol class="route-stop-list">
+          ${selectedGalleries.map(
+            function (gallery) {
+              return `<li>${escapeHTML(gallery.properties.gallery)}</li>`;
+            }
+          ).join("")}
+        </ol>
+        ${
+          selectedGalleries.length === 1
+            ? '<div class="route-next-step">Select at least one more gallery.</div>'
+            : '<div class="route-next-step">Click another gallery to add a stop.</div>'
+        }
       `;
     }
   }
+
+  function csvCell(value) {
+    const text = String(value ?? "");
+    return `"${text.replaceAll('"', '""')}"`;
+  }
+
+  function downloadRouteCSV() {
+    if (!currentRoute || selectedGalleries.length < 2) {
+      return;
+    }
+
+    const totalDistanceKm =
+      (currentRoute.distance / 1000).toFixed(2);
+
+    const totalWalkingMinutes =
+      Math.round(currentRoute.duration / 60);
+
+    const headings = [
+      "stop",
+      "gallery",
+      "neighborhood",
+      "address",
+      "published_schedule",
+      "access_status",
+      "walk_to_next_minutes",
+      "walk_to_next_km",
+      "total_walking_minutes",
+      "total_route_km"
+    ];
+
+    const rows = selectedGalleries.map(
+      function (gallery, index) {
+        const properties = gallery.properties || {};
+        const nextLeg = currentRoute.legs?.[index];
+
+        return [
+          index + 1,
+          properties.gallery,
+          properties.neighborhood,
+          properties.address,
+          properties.hours_text,
+          properties.current_access_status,
+          nextLeg ? Math.round(nextLeg.duration / 60) : "",
+          nextLeg ? (nextLeg.distance / 1000).toFixed(2) : "",
+          totalWalkingMinutes,
+          totalDistanceKm
+        ].map(csvCell).join(",");
+      }
+    );
+
+    const csv = [
+      headings.map(csvCell).join(","),
+      ...rows
+    ].join("\n");
+
+    const link = document.createElement("a");
+
+    link.href =
+      "data:text/csv;charset=utf-8," +
+      encodeURIComponent("\uFEFF" + csv);
+    link.download = `nyc-art-planner-route-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  downloadRouteButton.addEventListener(
+    "click",
+    downloadRouteCSV
+  );
 
   function showGalleryPopup(feature) {
     const properties =
@@ -477,27 +544,25 @@ var mapboxSketch = function () {
   // --------------------------------------------------
 
   async function createWalkingRoute() {
-    if (selectedGalleries.length !== 2) {
+    if (selectedGalleries.length < 2) {
       return;
     }
 
-    const start =
-      selectedGalleries[0]
-        .geometry.coordinates;
+    const thisRequest = ++routeRequestNumber;
+    currentRoute = null;
+    downloadRouteButton.disabled = true;
 
-    const end =
-      selectedGalleries[1]
-        .geometry.coordinates;
-
-    const coordinates =
-      `${start[0]},${start[1]};` +
-      `${end[0]},${end[1]}`;
+    const coordinates = selectedGalleries
+      .map(function (gallery) {
+        return gallery.geometry.coordinates.join(",");
+      })
+      .join(";");
 
     const directionsURL =
       "https://api.mapbox.com/" +
       "directions/v5/mapbox/walking/" +
       coordinates +
-      "?alternatives=true" +
+      "?steps=true" +
       "&geometries=geojson" +
       "&overview=full" +
       `&access_token=${mapboxgl.accessToken}`;
@@ -518,6 +583,10 @@ var mapboxSketch = function () {
       const data =
         await response.json();
 
+      if (thisRequest !== routeRequestNumber) {
+        return;
+      }
+
       if (
         !data.routes ||
         data.routes.length === 0
@@ -527,27 +596,14 @@ var mapboxSketch = function () {
         );
       }
 
-      // Select the shortest-distance route
-      // from the routes returned by Mapbox.
-      const shortestRoute =
-        data.routes.reduce(
-          function (shortest, route) {
-            if (
-              route.distance <
-              shortest.distance
-            ) {
-              return route;
-            }
-
-            return shortest;
-          }
-        );
+      const walkingRoute = data.routes[0];
+      currentRoute = walkingRoute;
 
       const routeFeature = {
         type: "Feature",
         properties: {},
         geometry:
-          shortestRoute.geometry
+          walkingRoute.geometry
       };
 
       map
@@ -556,27 +612,36 @@ var mapboxSketch = function () {
 
       const distanceKm =
         (
-          shortestRoute.distance / 1000
+          walkingRoute.distance / 1000
         ).toFixed(2);
 
       const durationMinutes =
         Math.round(
-          shortestRoute.duration / 60
+          walkingRoute.duration / 60
         );
 
       routeResultDisplay.innerHTML = `
-        ${distanceKm} km<br>
+        ${selectedGalleries.length} stops<br>
+        ${distanceKm} km total<br>
         About ${durationMinutes}
         minutes walking
       `;
 
+      downloadRouteButton.disabled = false;
+
       fitMapToCoordinates(
-        shortestRoute.geometry.coordinates,
+        walkingRoute.geometry.coordinates,
         90
       );
     } catch (error) {
+      if (thisRequest !== routeRequestNumber) {
+        return;
+      }
+
       console.error(error);
 
+      currentRoute = null;
+      downloadRouteButton.disabled = true;
       routeResultDisplay.textContent =
         "The walking route could not be calculated.";
     }
@@ -629,15 +694,17 @@ var mapboxSketch = function () {
       updateSelectedGalleries();
       broadcastMapGallerySelection();
 
+      if (selectedGalleries.length >= 2) {
+        createWalkingRoute();
+      }
+
       return;
     }
 
-    // After a completed route,
-    // a third gallery starts a new route.
-    if (selectedGalleries.length === 2) {
-      selectedGalleries = [];
-
-      clearRoute();
+    if (selectedGalleries.length >= 25) {
+      routeResultDisplay.textContent =
+        "A route can include up to 25 galleries.";
+      return;
     }
 
     selectedGalleries.push(
@@ -647,7 +714,7 @@ var mapboxSketch = function () {
     updateSelectedGalleries();
     broadcastMapGallerySelection();
 
-    if (selectedGalleries.length === 2) {
+    if (selectedGalleries.length >= 2) {
       createWalkingRoute();
     }
   }
