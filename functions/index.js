@@ -82,7 +82,26 @@ ${galleryListForPrompt()}`
       const data = await openAIResponse.json();
 
       if (!openAIResponse.ok) {
-        throw new Error(data.error?.message || "OpenAI request failed.");
+        const apiMessage = data.error?.message || "OpenAI request failed.";
+
+        if (
+          openAIResponse.status === 429 &&
+          /credit|quota|billing/i.test(apiMessage)
+        ) {
+          response.status(503).json({
+            error: "The OpenAI API account has no credits. Add API credits, then try again."
+          });
+          return;
+        }
+
+        if (openAIResponse.status === 401) {
+          response.status(503).json({
+            error: "The private OpenAI API key is invalid or expired. Replace the Firebase secret."
+          });
+          return;
+        }
+
+        throw new Error(apiMessage);
       }
 
       response.json({ answer: data.choices[0].message.content });

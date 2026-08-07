@@ -119,7 +119,7 @@
         svg.append("rect")
             .attr("width", width)
             .attr("height", height)
-            .attr("fill", "#f2f0e9");
+            .attr("fill", "#ffffff");
 
         var margin = {
             top: 95,
@@ -176,7 +176,7 @@
                     normalizeGalleryName(d.gallery)
                 )
             ) {
-                return "#d7ff00";
+                return "#f24caf";
             }
 
             if (planningDate < d.start) {
@@ -184,10 +184,10 @@
             }
 
             if (planningDate > d.end) {
-                return "#9a9a9a";     // already closed
+                return "#111111";     // already closed
             }
 
-            return "#aa3c2d";         // open during selected planning date
+            return "#42b6d1";         // open during selected planning date
         }
 
         function markOpacity(d, planningDate) {
@@ -244,7 +244,7 @@
             .attr("x", width - margin.right)
             .attr("y", 62)
             .attr("text-anchor", "end")
-            .attr("fill", "#aa3c2d")
+            .attr("fill", "#42b6d1")
             .attr("font-size", "12px")
             .attr("font-weight", "bold");
 
@@ -277,7 +277,8 @@
             .attr("y2", function(d) {
                 return yScale(d) + yScale.bandwidth() / 2;
             })
-            .attr("stroke", "#d8d4ca")
+            .attr("stroke", "#42b6d1")
+            .attr("stroke-opacity", 0.3)
             .attr("stroke-width", 1);
 
         // baseline
@@ -288,7 +289,7 @@
             .attr("x2", width - margin.right)
             .attr("y1", axisY)
             .attr("y2", axisY)
-            .attr("stroke", "#aa3c2d")
+            .attr("stroke", "#42b6d1")
             .attr("stroke-width", 1);
 
         // show marks
@@ -404,7 +405,7 @@
             .attr("stroke", "#111111");
 
         svg.selectAll(".tick line")
-            .attr("stroke", "#aa3c2d")
+            .attr("stroke", "#42b6d1")
             .attr("stroke-width", 0.5);
 
         // movable planning line group
@@ -415,18 +416,18 @@
         markerGroup.append("line")
             .attr("y1", margin.top - 26)
             .attr("y2", axisY)
-            .attr("stroke", "#aa3c2d")
+            .attr("stroke", "#f24caf")
             .attr("stroke-width", 1.5);
 
         markerGroup.append("circle")
             .attr("cy", axisY)
             .attr("r", 5)
-            .attr("fill", "#aa3c2d");
+            .attr("fill", "#f24caf");
 
         var markerLabel = markerGroup.append("text")
             .attr("x", 7)
             .attr("y", margin.top - 32)
-            .attr("fill", "#aa3c2d")
+            .attr("fill", "#f24caf")
             .attr("font-size", "11px")
             .text("planning line");
 
@@ -436,7 +437,7 @@
             .attr("y", height - 30)
             .attr("fill", "#111111")
             .attr("font-size", "11px")
-            .text("lime = selected gallery     black = upcoming     red = open     gray = closed");
+            .text("pink = selected gallery     black = upcoming / closed     blue = open");
 
         // Track the planning date across the plot without covering show targets.
         svg.on("mousemove.planning", function(event) {

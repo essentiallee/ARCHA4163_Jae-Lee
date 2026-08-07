@@ -34,12 +34,8 @@ var mapboxSketch = function () {
     zoom: initialView.zoom
   });
 
-  // Map controls.
-  map.addControl(
-    new mapboxgl.NavigationControl(),
-    "top-right"
-  );
-
+  // Keep the map open for trackpad, mouse-wheel, and touch gestures.
+  // The visible +/- zoom control is intentionally omitted.
   map.addControl(
     new mapboxgl.FullscreenControl(),
     "top-right"
@@ -61,24 +57,24 @@ var mapboxSketch = function () {
 
   panel.id = "gallery-route-panel";
   panel.style.position = "absolute";
-  panel.style.left = "16px";
-  panel.style.top = "16px";
+  panel.style.left = "20px";
+  panel.style.top = "100px";
   panel.style.zIndex = "5";
   panel.style.width = "280px";
   panel.style.maxWidth = "calc(100% - 90px)";
   panel.style.padding = "14px";
-  panel.style.background = "rgba(17, 17, 17, 0.92)";
-  panel.style.color = "#f2f0e9";
-  panel.style.border = "1px solid #d7ff00";
+  panel.style.background = "rgba(255, 255, 255, 0.96)";
+  panel.style.color = "#111111";
+  panel.style.border = "1px solid #42b6d1";
   panel.style.fontFamily =
-    '"Barlow Condensed", Arial, sans-serif';
+    'Helvetica, Arial, sans-serif';
   panel.style.fontSize = "15px";
   panel.style.lineHeight = "1.3";
   panel.style.boxSizing = "border-box";
   panel.style.pointerEvents = "none";
 
   panel.innerHTML = `
-    <strong style="color:#d7ff00; font-size:18px;">
+    <strong style="color:#42b6d1; font-size:18px;">
       Gallery Walking Route
     </strong>
 
@@ -92,7 +88,7 @@ var mapboxSketch = function () {
 
     <div
       id="timeline-focus"
-      style="display:none; margin-top:10px; color:#d7ff00;"
+      style="display:none; margin-top:10px; color:#42b6d1;"
     ></div>
 
     <div
@@ -102,7 +98,7 @@ var mapboxSketch = function () {
 
     <div
       id="route-result"
-      style="margin-top:10px; color:#d7ff00;"
+      style="margin-top:10px; color:#42b6d1;"
     ></div>
   `;
 
@@ -265,7 +261,7 @@ var mapboxSketch = function () {
       )}
       ${
         detail.show
-          ? `<br><span style="color:#f2f0e9;">${escapeHTML(detail.show)}</span>`
+          ? `<br><span style="color:#111111;">${escapeHTML(detail.show)}</span>`
           : ""
       }
     `;
@@ -406,7 +402,7 @@ var mapboxSketch = function () {
       .setHTML(`
         <div
           style="
-            font-family:'Barlow Condensed', Arial, sans-serif;
+            font-family:Helvetica, Arial, sans-serif;
             max-width:240px;
           "
         >
@@ -719,7 +715,7 @@ var mapboxSketch = function () {
         },
 
         paint: {
-          "line-color": "#aa3c2d",
+          "line-color": "#f24caf",
           "line-width": 6,
           "line-opacity": 0.9
         }
@@ -762,11 +758,11 @@ var mapboxSketch = function () {
             ],
 
             "#111111",
-            "#aa3c2d"
+            "#42b6d1"
           ],
 
           "circle-stroke-color":
-            "#f2f0e9",
+            "#ffffff",
 
           "circle-stroke-width": 1.5
         }
@@ -788,7 +784,7 @@ var mapboxSketch = function () {
           "circle-color":
             "rgba(0, 0, 0, 0)",
           "circle-stroke-color":
-            "#d7ff00",
+            "#42b6d1",
           "circle-stroke-width": 5
         }
       });
@@ -806,7 +802,7 @@ var mapboxSketch = function () {
 
         paint: {
           "circle-radius": 11,
-          "circle-color": "#d7ff00",
+          "circle-color": "#f24caf",
           "circle-stroke-color":
             "#111111",
           "circle-stroke-width": 3
@@ -857,7 +853,7 @@ var mapboxSketch = function () {
         paint: {
           "text-color": "#111111",
           "text-halo-color":
-            "#f2f0e9",
+            "#ffffff",
           "text-halo-width": 1.5
         }
       });
@@ -971,96 +967,6 @@ var mapboxSketch = function () {
     }
   });
 
-  // --------------------------------------------------
-  // 8. EXISTING HTML BUTTONS
-  // --------------------------------------------------
-
-  const zoomInButton =
-    document.getElementById("zoomIn");
-
-  const zoomOutButton =
-    document.getElementById("zoomOut");
-
-  const resetButton =
-    document.getElementById("reset");
-
-  if (zoomInButton) {
-    zoomInButton.addEventListener(
-      "click",
-      function () {
-        map.zoomIn();
-      }
-    );
-  }
-
-  if (zoomOutButton) {
-    zoomOutButton.addEventListener(
-      "click",
-      function () {
-        map.zoomOut();
-      }
-    );
-  }
-
-  if (resetButton) {
-    resetButton.addEventListener(
-      "click",
-      function () {
-        selectedGalleries = [];
-
-        clearRoute();
-        updateSelectedGalleries();
-        broadcastMapGallerySelection();
-
-        const focusedSource =
-          map.getSource(
-            "focused-gallery"
-          );
-
-        if (focusedSource) {
-          focusedSource.setData(
-            emptyFeatureCollection()
-          );
-        }
-
-        delete mapContainer.dataset
-          .focusedGallery;
-
-        timelineFocusDisplay.style.display =
-          "none";
-
-        timelineFocusDisplay.textContent =
-          "";
-
-        if (allGalleryData) {
-          const galleryCoordinates =
-            allGalleryData.features
-              .filter(function (
-                feature
-              ) {
-                return (
-                  feature.geometry &&
-                  feature.geometry.type ===
-                    "Point"
-                );
-              })
-              .map(function (feature) {
-                return (
-                  feature.geometry
-                    .coordinates
-                );
-              });
-
-          fitMapToCoordinates(
-            galleryCoordinates,
-            70
-          );
-        } else {
-          map.flyTo(initialView);
-        }
-      }
-    );
-  }
 };
 
 // Run the function immediately.

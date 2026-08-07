@@ -31,10 +31,26 @@
       body: JSON.stringify({ question })
     });
 
+    const contentType = response.headers.get("content-type") || "";
+
+    if (!contentType.includes("application/json")) {
+      if (window.location.hostname.endsWith("github.io")) {
+        throw new Error(
+          "The public GitHub Pages site cannot run the private chatbot. " +
+          "Test it through Firebase Hosting instead."
+        );
+      }
+
+      throw new Error(
+        "The private chat function is not running. " +
+        "Open the Firebase Hosting address, usually localhost:5000."
+      );
+    }
+
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.error || "The chatbot could not answer.");
+      throw new Error(data.error || `The chatbot returned error ${response.status}.`);
     }
 
     return data.answer;
