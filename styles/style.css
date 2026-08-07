@@ -281,28 +281,37 @@ h1 {
   opacity: 0.7;
 }
 
-#download-route {
+.route-action-buttons {
   position: sticky;
   bottom: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding-top: 8px;
+  background: var(--paper);
+}
+
+.route-action-buttons button {
   width: 100%;
-  margin-top: 12px;
-  padding: 8px 10px;
+  min-height: 30px;
+  padding: 5px 7px;
   border: 1px solid var(--blue);
   border-radius: 0;
   background: var(--blue);
   color: var(--paper);
-  font-size: 14px;
+  font-size: 12px;
+  line-height: 1.1;
   font-weight: 700;
   cursor: pointer;
 }
 
-#download-route:hover,
-#download-route:focus-visible {
+.route-action-buttons button:hover,
+.route-action-buttons button:focus-visible {
   background: var(--paper);
   color: var(--blue);
 }
 
-#download-route:disabled {
+.route-action-buttons button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }

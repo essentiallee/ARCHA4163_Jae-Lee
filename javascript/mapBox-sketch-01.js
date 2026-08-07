@@ -103,9 +103,15 @@ var mapboxSketch = function () {
       style="margin-top:10px; color:#42b6d1;"
     ></div>
 
-    <button id="download-route" type="button" disabled>
-      Download route CSV
-    </button>
+    <div class="route-action-buttons">
+      <button id="download-route" type="button" disabled>
+        Download route CSV
+      </button>
+
+      <button id="reset-route" type="button" disabled>
+        Reset route
+      </button>
+    </div>
   `;
 
   mapContainer.appendChild(panel);
@@ -121,6 +127,9 @@ var mapboxSketch = function () {
 
   const downloadRouteButton =
     panel.querySelector("#download-route");
+
+  const resetRouteButton =
+    panel.querySelector("#reset-route");
 
   // First item = start.
   // Second item = destination.
@@ -341,6 +350,9 @@ var mapboxSketch = function () {
         "No galleries selected.";
     }
 
+    resetRouteButton.disabled =
+      selectedGalleries.length === 0;
+
     if (selectedGalleries.length > 0) {
       selectionDisplay.innerHTML = `
         <ol class="route-stop-list">
@@ -427,6 +439,36 @@ var mapboxSketch = function () {
   downloadRouteButton.addEventListener(
     "click",
     downloadRouteCSV
+  );
+
+  function resetRoute() {
+    selectedGalleries = [];
+    clearRoute();
+    updateSelectedGalleries();
+    broadcastMapGallerySelection();
+
+    if (!allGalleryData) {
+      map.flyTo(initialView);
+      return;
+    }
+
+    const galleryCoordinates = allGalleryData.features
+      .filter(function (feature) {
+        return (
+          feature.geometry &&
+          feature.geometry.type === "Point"
+        );
+      })
+      .map(function (feature) {
+        return feature.geometry.coordinates;
+      });
+
+    fitMapToCoordinates(galleryCoordinates, 70);
+  }
+
+  resetRouteButton.addEventListener(
+    "click",
+    resetRoute
   );
 
   function showGalleryPopup(feature) {
